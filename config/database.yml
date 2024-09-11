@@ -5,7 +5,8 @@ development:
   <<: *default
 
 test:
-  <<: *default
+  adapter: sqlite3
+  database: storage/test.sqlite3
 
 production:
   <<: *default
