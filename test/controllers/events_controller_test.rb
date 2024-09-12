@@ -23,6 +23,14 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to event_url(Event.last)
   end
 
+  test "should not create event with invalid parameters" do
+    assert_no_difference("Event.count") do
+      post events_url, params: { event: { capacity: nil, title: nil } }
+    end
+
+    assert_response :unprocessable_entity
+  end
+
   test "should show event" do
     get event_url(@event)
     assert_response :success
@@ -36,6 +44,11 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
   test "should update event" do
     patch event_url(@event), params: { event: { capacity: @event.capacity, title: @event.title } }
     assert_redirected_to event_url(@event)
+  end
+
+  test "should not update event with invalid parameters" do
+    patch event_url(@event), params: { event: { capacity: nil, title: nil } }
+    assert_response :unprocessable_entity
   end
 
   test "should destroy event" do
