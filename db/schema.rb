@@ -10,8 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_11_144057) do
-  create_table "enrollments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+ActiveRecord::Schema[7.2].define(version: 2024_09_12_224423) do
+  create_table "enrollments", force: :cascade do |t|
     t.bigint "event_id", null: false
     t.string "email"
     t.datetime "created_at", null: false
@@ -19,11 +19,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_11_144057) do
     t.index ["event_id"], name: "index_enrollments_on_event_id"
   end
 
-  create_table "events", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "events", force: :cascade do |t|
     t.string "title"
     t.integer "capacity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "lock_version"
   end
 
   add_foreign_key "enrollments", "events"

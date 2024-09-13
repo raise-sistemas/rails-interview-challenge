@@ -4,6 +4,28 @@ class EnrollmentsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @enrollment = enrollments(:one)
     @event = Event.create!(title: "Test Event", capacity: 1)
+    @event2 = Event.create!(title: "Test Event", capacity: 2)
+  end
+
+  test "should handle simultaneous enrollments with event locking" do
+    post enrollments_url, params: { enrollment: { email: "test1@example.com", event_id: @event2.id } }
+    assert_response :redirect
+    threads = []
+
+    threads << Thread.new do
+      post enrollments_url, params: { enrollment: { email: "test3@example.com", event_id: @event2.id } }
+    end
+
+    threads << Thread.new do
+      e = Event.find(@event2.id)
+      post enrollments_url, params: { enrollment: { email: "test3@example.com", event_id: e.id } }
+    end
+
+    threads.each(&:join)
+
+    post enrollments_url, params: { enrollment: { email: "test4@example.com", event_id: @event2.id } }
+    assert_response :unprocessable_entity
+    assert_match /Event capacity has been reached/, response.body
   end
 
   test "try to create an enrollment for an event that has reached its capacity" do

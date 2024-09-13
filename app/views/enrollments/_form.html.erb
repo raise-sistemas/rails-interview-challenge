@@ -13,7 +13,7 @@
 
   <div>
     <%= form.label :event_id, style: "display: block" %>
-    <%= form.collection_select :event_id, Event.all, :id, :title %>
+    <%= form.collection_select :event_id, @events, :id, :title %>
   </div>
 
   <div>

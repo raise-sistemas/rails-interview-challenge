@@ -42,6 +42,7 @@ rails runner 'Event.create!(title: "O Escolhido", capacity: 1)'
 rails runner 'Event.create!(title: "Dois é bom", capacity: 2)'
 rails runner 'Event.create!(title: "Três é melhor", capacity: 3)'
 rails runner 'Event.create!(title: "Éramos 6", capacity: 6)'
+rails dev:cache # To perform using local cache on dev mode
 rails s
 # visitar: http://localhost:3000/enrollments/new
 ```

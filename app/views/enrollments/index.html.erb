@@ -6,7 +6,9 @@
 
 <div id="enrollments">
   <% @enrollments.each do |enrollment| %>
-    <%= render enrollment %>
+    <% cache enrollment do %>
+      <%= render enrollment %>
+    <% end %>
     <p>
       <%= link_to "Show this enrollment", enrollment %>
     </p>

@@ -13,6 +13,7 @@ class EnrollmentTest < ActiveSupport::TestCase
   test "should not save enrollment if event capacity is exceeded" do
     2.times { Enrollment.create!(event: @event) }
     enrollment = Enrollment.new(event: @event)
+    @event.reload
     assert_not enrollment.save, "Enrollment should not be saved when event capacity is exceeded"
     assert_includes enrollment.errors[:base], "Event capacity has been reached."
   end

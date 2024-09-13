@@ -10,6 +10,19 @@ class EnrollmentsTest < ApplicationSystemTestCase
     assert_selector "h1", text: "Enrollments"
   end
 
+  test "should not create enrollment if event is at capacity" do
+    event = events(:one)
+    event.update(capacity: 1)
+    Enrollment.create!(email: "test@example.com", event: event)
+
+    visit new_enrollment_url
+    fill_in "Email", with: "another_test@example.com"
+    fill_in "Event", with: event.id
+    click_on "Create Enrollment"
+
+    assert_text "Event has reached its capacity"
+  end
+
   test "should create enrollment" do
     visit enrollments_url
     click_on "New enrollment"
