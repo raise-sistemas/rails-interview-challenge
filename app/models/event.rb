@@ -27,6 +27,6 @@ class Event < ApplicationRecord
   end
 
   def total_enrollments
-    enrollments.size
+    enrollments.count
   end
 end
