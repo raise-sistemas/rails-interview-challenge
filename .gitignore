@@ -36,3 +36,6 @@
 
 # Ignore sqlite3 databases
 /db/*.sqlite3*
+
+# Ignore test coverage files
+/coverage/
