@@ -22,14 +22,15 @@ class EnrollmentsController < ApplicationController
   # POST /enrollments or /enrollments.json
   def create
     @enrollment = Enrollment.new(enrollment_params)
-
-    respond_to do |format|
-      if @enrollment.save
-        format.html { redirect_to enrollment_url(@enrollment), notice: "Enrollment was successfully created." }
-        format.json { render :show, status: :created, location: @enrollment }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @enrollment.errors, status: :unprocessable_entity }
+    ActiveRecord::Base.transaction do
+      respond_to do |format|
+        if @enrollment.save
+          format.html { redirect_to enrollment_url(@enrollment), notice: "Enrollment was successfully created." }
+          format.json { render :show, status: :created, location: @enrollment }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @enrollment.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
